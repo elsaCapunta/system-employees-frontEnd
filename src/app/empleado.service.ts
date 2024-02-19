@@ -15,4 +15,22 @@ export class EmpleadoService {
   obtenerListaEmpleado():Observable<Empleado[]>{
     return this.httpClient.get<Empleado[]>(`${this.baseURL}`);
   }
+
+  registrarEmpleado(empleado:Empleado):Observable<Object>{
+    return this.httpClient.post(`${this.baseURL}`,empleado);
+  }
+
+  obtenerEmpleadoPorId(id:number):Observable<Empleado>{
+    return this.httpClient.get<Empleado>(`${this.baseURL}/${id}`);
+  }
+
+  actualizarEmpleado(id:number, empleado:Empleado):Observable<Object>{
+    return this.httpClient.put(`${this.baseURL}/${id}`, empleado);
+  }
+
+  eliminarEmpleado(id:number):Observable<Object>{
+    return this.httpClient.delete(`${this.baseURL}/${id}`);
+  }
+
+
 }
