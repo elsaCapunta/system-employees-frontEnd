@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Empleado } from '../empleado';
 import { EmpleadoService } from '../empleado.service';
 import { Router } from '@angular/router';
+import Swal  from 'sweetalert2';
 
 @Component({
   selector: 'app-lista-empleados',
@@ -28,11 +29,34 @@ export class ListaEmpleadosComponent implements OnInit{
     this.router.navigate(["actualizar-empleado", id]);
   }
 
-  eliminarEmpleado(id:number){
-    this.empleadoServicio.eliminarEmpleado(id).subscribe(dato =>{
-      console.log(dato);
-      this.obtenerEmpleados();
-    })
+  eliminarEmpleado(id: number) {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Confirma si deseas eliminar al empleado',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, elimínalo',
+      cancelButtonText: 'No, cancelar',
+      customClass: {
+        confirmButton: "btn btn-success",
+        cancelButton: "btn btn-danger"
+      },
+      buttonsStyling: true
+    }).then((result) => {
+      if (result.value) {
+        this.empleadoServicio.eliminarEmpleado(id).subscribe(dato => {
+          console.log(dato);
+          this.obtenerEmpleados();
+          Swal.fire(
+            'Empleado eliminado',
+            'El empleado ha sido eliminado con éxito',
+            'success'
+          );
+        });
+      }
+    });
   }
 
   verDetalles(id:number){
